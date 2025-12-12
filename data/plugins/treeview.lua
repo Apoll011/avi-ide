@@ -120,7 +120,6 @@ function TreeView:get_cached(project, path)
       filename = basename,
       depth = get_depth(truncated),
       abs_filename = path,
-      project = project,
       name = basename,
       type = info.type,
       project = project
