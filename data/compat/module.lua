@@ -111,7 +111,7 @@ if lua_version < "5.3" then
 
    -- update math library
    do
-      local maxint, minint = 1
+      local maxint, minint = 1, 1
 
       while maxint+1 > maxint and 2*maxint > maxint do
          maxint = maxint * 2
