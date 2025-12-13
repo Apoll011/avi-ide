@@ -217,11 +217,11 @@ local style = require "core.style"
 -- style.font = renderer.font.load(DATADIR .. "/fonts/FiraSans-Regular.ttf", 14 * SCALE)
 -- style.code_font = renderer.font.load(DATADIR .. "/fonts/JetBrainsMono-Regular.ttf", 14 * SCALE)
 --
--- DATADIR is the location of the installed Pragtical Lua code, default color
+-- DATADIR is the location of the installed Avi Studio Lua code, default color
 -- schemes and fonts.
--- USERDIR is the location of the Pragtical configuration directory.
+-- USERDIR is the location of the Avi Studio configuration directory.
 --
--- font names used by pragtical:
+-- font names used by Avi Studio:
 -- style.font          : user interface
 -- style.big_font      : big text in welcome screen
 -- style.icon_font     : icons
@@ -336,14 +336,14 @@ end
 
 function core.init()
   DEFAULT_SCALE, DEFAULT_FPS = system.get_display_info()
-  SCALE = tonumber(os.getenv("PRAGTICAL_SCALE")) or DEFAULT_SCALE
+  SCALE = tonumber(os.getenv("AVI_STUDIO_SCALE")) or DEFAULT_SCALE
 
   -- load config after scale detection for flags that depend on it
   config = require "core.config"
 
   -- log functions depend on config so initialize after loading config
   core.log_items = {}
-  core.log_quiet("Pragtical version %s - mod-version %s", VERSION, MOD_VERSION_STRING)
+  core.log_quiet("Avi Studio version %s - mod-version %s", VERSION, MOD_VERSION_STRING)
 
   style = require "colors.default"
   cli = require "core.cli"
@@ -613,7 +613,7 @@ function core.confirm_close_docs(docs, close_fn, ...)
 end
 
 local temp_uid = math.floor(system.get_time() * 1000) % 0xffffffff
-local temp_file_prefix = string.format(".pragtical_temp_%08x", tonumber(temp_uid))
+local temp_file_prefix = string.format(".avi_studio_temp_%08x", tonumber(temp_uid))
 local temp_file_counter = 0
 
 function core.delete_temp_files(dir)
@@ -755,7 +755,7 @@ function core.load_plugins()
   }
   local files, ordered = {}, {
     { priority = -2, load = load_lua_plugin_if_exists, version_match = true, file = USERDIR .. PATHSEP .. "init.lua", name = "User Module" },
-    { priority = -1, load = load_lua_plugin_if_exists, version_match = true, file = core.root_project().path .. PATHSEP .. ".pragtical_project.lua", name = "Project Module" }
+    { priority = -1, load = load_lua_plugin_if_exists, version_match = true, file = core.root_project().path .. PATHSEP .. ".avi_studio_project.lua", name = "Project Module" }
   }
   for _, root_dir in ipairs {DATADIR, USERDIR} do
     local plugin_dir = root_dir .. PATHSEP .. "plugins"
@@ -1403,7 +1403,7 @@ end
 
 
 function core.compose_window_title(title)
-  return (title == "" or title == nil) and "Pragtical" or title .. " - Pragtical"
+  return (title == "" or title == nil) and "Avi Studio" or title .. " - Avi Studio"
 end
 
 local draw_stats_fps = 0

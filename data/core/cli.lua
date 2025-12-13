@@ -62,9 +62,9 @@ local core = require "core"
 ---List of arguments that weren't handled on last parse.
 ---@field unhandled_arguments table<integer,string>
 local cli = {
-  app_name = "Pragtical",
+  app_name = "Avi Studio",
   app_version = VERSION,
-  app_description = "The practical and pragmatic code editor.",
+  app_description = "Avi Studio is a lightweight, fast, and customizable code editor for Avi skills",
   commands = {},
   commands_count = 0,
   last_command = "",
@@ -297,7 +297,7 @@ local function print_command_help(command)
       print(cli.colorize("  --", "green")
         .. pad_text(
           "Always treat argument as command even if a file or directory "
-            .. "exists with the same name, eg: pragtical -- help",
+            .. "exists with the same name, eg: avi -- help",
           flags_padding,
           flags_padding - 4,
           columns
@@ -665,11 +665,11 @@ cli.register {
   usage = "[<command_name>]",
   long_description = "The help command displays help for a given command, eg:"
     .. "\n\n"
-    .. cli.colorize("  pragtical help help", "green")
+    .. cli.colorize("  avi help help", "green")
     .. "\n\n"
     .. "To view all commands use the `list` command:"
     .. "\n\n"
-    .. cli.colorize("  pragtical list", "green"),
+    .. cli.colorize("  avi list", "green"),
   arguments = {
     command_name = "Name of specific command to print its help"
   },
@@ -768,7 +768,7 @@ cli.register {
 -- Register run command
 cli.register {
   command = "run",
-  description = "Run a Lua script against the Pragtical runtime.",
+  description = "Run a Lua script against the Avi runtime.",
   usage = "[options] <lua_file|lua_code>",
   exit_editor = false,
   min_arguments = 1,

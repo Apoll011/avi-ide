@@ -1311,7 +1311,6 @@ end
 ---@field private colors widget
 ---@field private plugins widget
 ---@field private keybinds widget
----@field private about widget
 ---@field private core_sections widget.foldingbook
 ---@field private plugin_sections widget.foldingbook
 local Settings = Widget:extend()
@@ -1336,13 +1335,11 @@ function Settings:new()
   self.colors = self.notebook:add_pane("colors", "Colors")
   self.plugins = self.notebook:add_pane("plugins", "Plugins")
   self.keybinds = self.notebook:add_pane("keybindings", "Keybindings")
-  self.about = self.notebook:add_pane("about", "About")
 
   self.notebook:set_pane_icon("core", "A")
   self.notebook:set_pane_icon("colors", "E")
   self.notebook:set_pane_icon("plugins", "p")
   self.notebook:set_pane_icon("keybindings", "k")
-  self.notebook:set_pane_icon("about", "i")
 
   self.core_sections = FoldingBook(self.core)
   self.core_sections.border.width = 0
@@ -1356,8 +1353,6 @@ function Settings:new()
   self:load_color_settings()
   self:load_plugin_settings()
   self:load_keymap_settings()
-
-  self:setup_about()
 end
 
 ---Helper function to add control for both core and plugin settings.
@@ -1970,109 +1965,6 @@ function Settings:load_keymap_settings()
   end
 end
 
-function Settings:setup_about()
-  ---@type widget.label
-  local title = Label(self.about, "Pragtical")
-  title.font = "big_font"
-  ---@type widget.label
-  local version = Label(self.about, "version " .. VERSION, true)
-  ---@type widget.label
-  local description = Label(
-    self.about,
-    "A lightweight text editor written in Lua, adapted from lite.",
-    true
-  )
-
-  ---@type widget.button
-  local button = Button(self.about, "Visit Website")
-  button:set_icon("G")
-  button:set_tooltip("Open https://pragtical.dev/")
-  function button:on_click() common.open_in_system("https://pragtical.dev/") end
-
-  ---@type widget.listbox
-  local contributors = ListBox(self.about)
-  contributors.scrollable = true
-  contributors:add_column("Contributors")
-  contributors:add_column("")
-  contributors:add_column("Website")
-  function contributors:on_row_click(_, data) common.open_in_system(data) end
-
-local contributors_list = {
-  { "Rxi", "Lite Founder", "https://github.com/rxi" },
-  { "Francesco Abbate", "Lite XL Founder", "https://github.com/franko" },
-  { "Adam Harrison", "Core", "https://github.com/adamharrison" },
-  { "Andrea Zanellato", "CI, Website", "https://github.com/redtide" },
-  { "Björn Buckwalter", "MacOS Support", "https://github.com/bjornbm" },
-  { "boppyt", "Contributor", "https://github.com/boppyt" },
-  { "Cukmekerb", "Contributor", "https://github.com/vincens2005" },
-  { "Daniel Rocha", "Contributor", "https://github.com/dannRocha" },
-  { "daubaris", "Contributor", "https://github.com/daubaris" },
-  { "Dheisom Gomes", "Contributor", "https://github.com/dheisom" },
-  { "Evgeny Petrovskiy", "Contributor", "https://github.com/eugenpt" },
-  { "Ferdinand Prantl", "Contributor", "https://github.com/prantlf" },
-  { "Jan", "Build System", "https://github.com/Jan200101" },
-  { "Janis-Leuenberger", "MacOS Support", "https://github.com/Janis-Leuenberger" },
-  { "Jefferson", "Contributor", "https://github.com/jgmdev" },
-  { "Jipok", "Contributor", "https://github.com/Jipok" },
-  { "Joshua Minor", "Contributor", "https://github.com/jminor" },
-  { "George Linkovsky", "Contributor", "https://github.com/Timofffee" },
-  { "Guldoman", "Core", "https://github.com/Guldoman" },
-  { "liquidev", "Contributor", "https://github.com/liquidev" },
-  { "Mat Mariani", "MacOS Support", "https://github.com/mathewmariani" },
-  { "Nightwing", "Contributor", "https://github.com/Nightwing13" },
-  { "Nils Kvist", "Contributor", "https://github.com/budRich" },
-  { "Not-a-web-Developer", "Contributor", "https://github.com/Not-a-web-Developer" },
-  { "Robert Štojs", "CI", "https://github.com/netrobert" },
-  { "sammyette", "Plugins", "https://github.com/TorchedSammy" },
-  { "Takase", "Core", "https://github.com/takase1121" },
-  { "xwii", "Contributor", "https://github.com/xcb-xwii" }
-}
-
-  for _, c in ipairs(contributors_list) do
-    contributors:add_row({
-      c[1], ListBox.COLEND, c[2], ListBox.COLEND, c[3]
-    }, c[3])
-  end
-
-  ---@param self widget
-  function self.about:update_positions()
-    local center = self:get_width() / 2
-
-    title:set_label("Pragtical")
-    title:set_position(
-      center - (title:get_width() / 2),
-      style.padding.y
-    )
-
-    version:set_position(
-      center - (version:get_width() / 2),
-      title:get_bottom() + (style.padding.y / 2)
-    )
-
-    description:set_position(
-      center - (description:get_width() / 2),
-      version:get_bottom() + (style.padding.y / 2)
-    )
-
-    button:set_position(
-      center - (button:get_width() / 2),
-      description:get_bottom() + style.padding.y
-    )
-
-    contributors:set_position(
-      style.padding.x,
-      button:get_bottom() + style.padding.y
-    )
-
-    contributors:set_size(
-      self:get_width() - (style.padding.x * 2),
-      self:get_height() - (button:get_bottom() + (style.padding.y * 2))
-    )
-
-    contributors:set_visible_rows()
-  end
-end
-
 ---Reposition and resize core and plugin widgets.
 function Settings:update()
   if not Settings.super.update(self) then return end
@@ -2126,10 +2018,6 @@ function Settings:update()
     self.keybinds:update_positions()
   end
 
-  if self.about:is_visible() then
-    self.about:update_positions()
-  end
-
   if self.size.x == 0 and self.size.y == 0 then
     -- we need this since sometimes when adding a view to a node
     -- it isn't initially given any size, needed for calculations
@@ -2181,7 +2069,7 @@ function core.run()
   if settings.config.reload_user_modules then
     local modules = {
       USERDIR .. PATHSEP .. "init.lua",
-      core.root_project().path .. PATHSEP .. ".pragtical_project.lua"
+      core.root_project().path .. PATHSEP .. ".avi_studio_project.lua"
     }
     for _, module in ipairs(modules) do
       core.reload_absolute_module(module)
@@ -2193,7 +2081,7 @@ end
 
 --------------------------------------------------------------------------------
 -- Disable plugins at startup, only works if this file is the first
--- required on user module, or priority tag is obeyed by pragtical.
+-- required on user module, or priority tag is obeyed by Avi Studio.
 --------------------------------------------------------------------------------
 -- load custom user settings that include list of disabled plugins
 load_settings()

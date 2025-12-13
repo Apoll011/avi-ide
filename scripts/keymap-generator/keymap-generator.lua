@@ -54,12 +54,12 @@ local function process_module(mod, filename)
 end
 
 
-print("Warning: this is not guaranteed to work outside pragtical's own keymap. Proceed with caution")
-local PRAGTICAL_ROOT = arg[1]
-if not PRAGTICAL_ROOT then
-  error("PRAGTICAL_ROOT is not given")
+print("Warning: this is not guaranteed to work outside avi's own keymap. Proceed with caution")
+local AVI_STUDIO_ROOT = arg[1]
+if not AVI_STUDIO_ROOT then
+  error("AVI_STUDIO_ROOT is not given")
 end
-package.path = package.path .. ";" .. PRAGTICAL_ROOT .. "/?.lua;" .. PRAGTICAL_ROOT .. "/?/init.lua"
+package.path = package.path .. ";" .. AVI_STUDIO_ROOT .. "/?.lua;" .. AVI_STUDIO_ROOT .. "/?/init.lua"
 
 -- fix core.command (because we don't want load the entire thing)
 package.loaded["core.command"] = {}

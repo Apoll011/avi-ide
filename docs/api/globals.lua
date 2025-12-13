@@ -1,6 +1,6 @@
 ---@meta
 
----The command line arguments given to pragtical.
+---The command line arguments given to Avi Studio.
 ---@type table<integer, string>
 ARGS = {}
 
@@ -17,25 +17,25 @@ PLATFORM = "Operating System"
 ---@type number
 SCALE = 1.0
 
----Full path of pragtical executable.
+---Full path of Avi executable.
 ---@type string
-EXEFILE = "/path/to/pragtical"
+EXEFILE = "/path/to/avi-studio"
 
 ---Path to the users home directory.
 ---@type string
 HOME = "/path/to/user/dir"
 
----This is set to true if pragtical was compiled with luajit.
+---This is set to true if Avi was compiled with luajit.
 ---@type boolean
 LUAJIT = false
 
 ---Directory that holds the editor lua sources and other data files.
 ---@type string
-DATADIR = "/usr/share/pragtical"
+DATADIR = "/usr/share/avi-studio"
 
 ---Directory that holds the user configuration files, plugins, colors, etc...
 ---@type string
-USERDIR = "/home/user/.config/pragtical"
+USERDIR = "/home/user/.config/avi-studio"
 
 ---Directory where the editor executable resides.
 ---@type string

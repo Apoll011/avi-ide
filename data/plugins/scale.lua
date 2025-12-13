@@ -26,7 +26,7 @@ config.plugins.scale = common.merge({
 local scale_steps = 0.05
 local current_scale = SCALE
 local current_code_scale = SCALE
-local user_scale = tonumber(os.getenv("PRAGTICAL_SCALE"))
+local user_scale = tonumber(os.getenv("AVI_STUDIO_SCALE"))
 
 ---@class plugins.scale
 local scale = {}
@@ -152,7 +152,7 @@ config.plugins.scale.config_spec = {
   name = "Scale",
   {
     label = "Autodetect Scale",
-    description = "Keeps the scale equal to display, ignored on startup if PRAGTICAL_SCALE is set.",
+    description = "Keeps the scale equal to display, ignored on startup if AVI_STUDIO_SCALE is set.",
     path = "autodetect",
     type = "toggle",
     default = true,
@@ -170,7 +170,7 @@ config.plugins.scale.config_spec = {
   },
   {
     label = "Default Scale",
-    description = "The scaling factor applied to pragtical when autodetect is not enabled.",
+    description = "The scaling factor applied to Avi Studio when autodetect is not enabled.",
     path = "default_scale",
     type = "number",
     default = DEFAULT_SCALE,
@@ -182,7 +182,7 @@ config.plugins.scale.config_spec = {
       return value
     end,
     on_apply = function(value)
-      -- Perevents overwriting the scale set by user in PRAGTICAL_SCALE
+      -- Perevents overwriting the scale set by user in AVI_STUDIO_SCALE
       if first_on_apply_scale then
         first_on_apply_scale = false
         if scale_set_by_user == 0 then return end
@@ -249,7 +249,7 @@ if config.plugins.scale.use_mousewheel then
   }
 end
 
--- Apply custom PRAGTICAL_SCALE if set by user
+-- Apply custom AVI_STUDIO_SCALE if set by user
 if user_scale then
   scale.set(user_scale)
   scale.set_code(user_scale)

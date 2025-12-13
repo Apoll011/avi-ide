@@ -1,4 +1,4 @@
--- this file is used by pragtical to setup the Lua environment when starting
+-- this file is used by Avi Studio to setup the Lua environment when starting
 VERSION = "@PROJECT_VERSION@"
 MOD_VERSION_MAJOR = tonumber("@MOD_VERSION_MAJOR@")
 MOD_VERSION_MINOR = tonumber("@MOD_VERSION_MINOR@")

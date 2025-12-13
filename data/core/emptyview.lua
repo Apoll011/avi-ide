@@ -62,7 +62,7 @@ function EmptyView:new()
   self.border.width = 0
   self.scrollable = true
 
-  self.title = "Pragtical"
+  self.title = "Avi Studio"
   self.version = "version " .. VERSION
   self.title_width = style.big_font:get_width(self.title)
   self.version_width = style.font:get_width(self.title)
@@ -90,16 +90,9 @@ function EmptyView:new()
 
   self.center_container = Container(self)
 
-  self.website = Button(self.center_container, "Website")
-  self.website:set_icon("G")
-  self.website:set_tooltip("Visit the editor website")
-  self.website.on_click = function(_, pressed)
-    common.open_in_system("https://pragtical.dev")
-  end
-
   self.docs = Button(self.center_container, "Documentation")
   self.docs:set_icon("?")
-  self.docs:set_tooltip("Visit the editor documentation")
+  self.docs:set_tooltip("Visit the Avi documentation")
   self.docs.on_click = function(_, pressed)
     common.open_in_system("https://pragtical.dev/docs/intro")
   end
@@ -218,7 +211,7 @@ function EmptyView:update()
     self.top_container:set_size(self:get_width())
     self.top_container:update()
 
-    self.title = "Pragtical"
+    self.title = "Avi Studio"
     self.version = "version " .. VERSION
     self.title_width = style.big_font:get_width(self.title)
     self.version_width = style.font:get_width(self.version)

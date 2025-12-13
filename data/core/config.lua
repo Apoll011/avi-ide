@@ -10,7 +10,7 @@ local config = {}
 ---@type boolean
 config.auto_fps = true
 
----The maximum frame rate of Pragtical.
+---The maximum frame rate of Avi Studio.
 ---Note that setting this value to the screen's refresh rate
 ---does not necessarily eliminates screen tearing.
 ---
@@ -285,7 +285,7 @@ config.draw_whitespace = false
 
 ---Disables system-drawn window borders.
 ---
----When set to true, Pragtical draws its own window decorations,
+---When set to true, Avi Studio draws its own window decorations,
 ---which can be useful for certain setups.
 ---
 ---Defaults to false.
@@ -299,7 +299,7 @@ config.borderless = false
 ---@type boolean
 config.tab_close_button = true
 
----Maximum number of clicks recognized by Pragtical.
+---Maximum number of clicks recognized by Avi Studio.
 ---
 ---Defaults to 3.
 ---@type number
