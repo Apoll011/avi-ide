@@ -8,7 +8,6 @@ subprojects/.wraplock
 .vscode
 .cache
 .ccls-cache
-.pragtical-debug.log
 .run*
 *.diff
 *.exe
@@ -18,8 +17,6 @@ subprojects/.wraplock
 *App*
 compile_commands.json
 error.txt
-pragtical*
-Pragtical*
 avi-studio*
 Avi-Studio*
 

@@ -33,7 +33,7 @@
  *
  * This file contains stock configuration for a typical installation of Lua 5.4.
  * DO NOT MODIFY ANYTHING. MODIFYING STUFFS IN HERE WILL BREAK
- * COMPATIBILITY WITH PRAGTICAL AND CAUSE UNDEBUGGABLE BUGS.
+ * COMPATIBILITY WITH AVI STUDIO AND CAUSE UNDEBUGGABLE BUGS.
 **/
 #ifndef studio_plugin_api
 #define studio_plugin_api

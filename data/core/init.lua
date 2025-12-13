@@ -1011,7 +1011,7 @@ function core.reload_absolute_module(filename)
       if not fn then error("Error when loading file:\n\t" .. err) end
       fn()
       core.project_module_loaded = true
-      if filename:match("%.pragtical_project") then
+      if filename:match("%.avi_studio_project") then
         core.log_quiet("Reloaded project module")
       elseif filename == USERDIR .. PATHSEP .. "init.lua" then
         core.log_quiet("Reloaded user module")

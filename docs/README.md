@@ -1,7 +1,7 @@
 # Interface Files
 
 This directory holds the documentation for the Lua C API that
-is hidden in the C source files of Pragtical. The idea of these files
+is hidden in the C source files of Avi Studio. The idea of these files
 is to serve you as a quick reference about the functionality
 that is not written in Lua it self. Please note that they
 don't have any real code, just metadata or annotations.
@@ -11,12 +11,12 @@ Also, these interfaces are using
 which is supported by LSP servers like the
 [Sumneko Lua LSP](https://github.com/sumneko/lua-language-server).
 This means that you can get nice code autocompletion and descriptions
-of Pragtical core libraries and symbols when developing plugins or adding
+of Avi Studio core libraries and symbols when developing plugins or adding
 any options to your **User Module File** (init.lua).
 
 ## The Base Core
 
-Most of the code that is written in Lua for Pragtical is powered by the exposed
+Most of the code that is written in Lua for Avi Studio is powered by the exposed
 C API in the four namespaces that follow:
 
 * [system](api/system.lua)

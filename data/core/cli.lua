@@ -342,15 +342,13 @@ end
 function cli.print_help(command)
   if not command then
     -- ASCII Art generated with:
-    -- https://patorjk.com/software/taag/#p=display&f=Big&t=Pragtical
-    print [[ _____                 _   _           _ ]]
-    print [[|  __ \               | | (_)         | |]]
-    print [[| |__) | __ __ _  __ _| |_ _  ___ __ _| |]]
-    print [[|  ___/ '__/ _` |/ _` | __| |/ __/ _` | |]]
-    print [[| |   | | | (_| | (_| | |_| | (_| (_| | |]]
-    print [[|_|   |_|  \__,_|\__, |\__|_|\___\__,_|_|]]
-    print [[                  __/ |                  ]]
-    print [[                 |___/   ]]
+    -- https://patorjk.com/software/taag/#p=display&f=Big&t=Avi Studio
+    print [[              _    _____ _             _ _       ]]
+    print [[    /\       (_)  / ____| |           | (_)      ]]
+    print [[   /  \__   ___  | (___ | |_ _   _  __| |_  ___  ]]
+    print [[  / /\ \ \ / / |  \___ \| __| | | |/ _` | |/ _ \ ]]
+    print [[ / ____ \ V /| |  ____) | |_| |_| | (_| | | (_) |]]
+    print [[/_/    \_\_/ |_| |_____/ \__|\__,_|\__,_|_|\___/ ]]
     print(
       cli.colorize(cli.app_name, "green")
       .. " "

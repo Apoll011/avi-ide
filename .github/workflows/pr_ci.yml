@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           echo "INSTALL_REF=${GITHUB_REF##*/}" >> "$GITHUB_ENV"
-          echo "INSTALL_NAME=pragtical-${GITHUB_REF##*/}-linux-$(uname -m)-portable" >> "$GITHUB_ENV"
+          echo "INSTALL_NAME=Avi-Studio-${GITHUB_REF##*/}-linux-$(uname -m)-portable" >> "$GITHUB_ENV"
       - name: Python Setup
         uses: actions/setup-python@v5
         with:
@@ -80,7 +80,7 @@ jobs:
         run: |
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           echo "INSTALL_REF=${GITHUB_REF##*/}" >> "$GITHUB_ENV"
-          echo "INSTALL_NAME=pragtical-${GITHUB_REF##*/}-macos-${{ matrix.config.arch }}" >> "$GITHUB_ENV"
+          echo "INSTALL_NAME=Avi-Studio-${GITHUB_REF##*/}-macos-${{ matrix.config.arch }}" >> "$GITHUB_ENV"
       - name: Python Setup
         uses: actions/setup-python@v5
         with:
@@ -139,9 +139,9 @@ jobs:
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           echo "INSTALL_REF=${GITHUB_REF##*/}" >> "$GITHUB_ENV"
           if [[ "${MSYSTEM}" == "MINGW64" ]]; then
-            echo "INSTALL_NAME=pragtical-${GITHUB_REF##*/}-windows-x86_64" >> "$GITHUB_ENV"
+            echo "INSTALL_NAME=Avi-Studio-${GITHUB_REF##*/}-windows-x86_64" >> "$GITHUB_ENV"
           else
-            echo "INSTALL_NAME=pragtical-${GITHUB_REF##*/}-windows-i686" >> "$GITHUB_ENV"
+            echo "INSTALL_NAME=Avi-Studio-${GITHUB_REF##*/}-windows-i686" >> "$GITHUB_ENV"
           fi
       - name: Install Dependencies
         if: false
@@ -184,7 +184,7 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v2
       - name: Set up environment variables
         run: |
-          "INSTALL_NAME=pragtical-$($env:GITHUB_REF -replace ".*/")-windows-msvc-${{ matrix.arch.name }}" >> $env:GITHUB_ENV
+          "INSTALL_NAME=Avi-Studio-$($env:GITHUB_REF -replace ".*/")-windows-msvc-${{ matrix.arch.name }}" >> $env:GITHUB_ENV
           "INSTALL_REF=$($env:GITHUB_REF -replace ".*/")" >> $env:GITHUB_ENV
           "LUA_SUBPROJECT_PATH=subprojects/lua-5.4.6" >> $env:GITHUB_ENV
       - name: Configure
@@ -193,11 +193,11 @@ jobs:
       - name: Build
         run: |
           meson compile -j 1 -C build
-          meson install -C build --destdir="../pragtical"
+          meson install -C build --destdir="../avi-studio"
       - name: Package
         run: |
-          Remove-Item -Recurse -Force -Path "pragtical/lib","pragtical/include"
-          Compress-Archive -Path pragtical -DestinationPath "$env:INSTALL_NAME.zip"
+          Remove-Item -Recurse -Force -Path "avi-studio/lib","avi-studio/include"
+          Compress-Archive -Path avi-studio -DestinationPath "$env:INSTALL_NAME.zip"
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
