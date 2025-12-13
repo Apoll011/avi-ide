@@ -66,7 +66,8 @@ local extension_icons = {
   [".cs"] = { "#596706", "c-sharp-16" },  -- C#
   [".conf"] = { "#6d8086", "gear-16" }, [".cfg"] = { "#6d8086", "gear-16" },
   [".toml"] = { "#6d8086", "toml-16" },
-  [".yaml"] = { "#6d8086", "yaml-16" }, [".yml"] = { "#6d8086", "yaml-16" },
+  [".yaml"] = { "#6d8086", "yaml-16" }, 
+  [".yml"] = { "#6d8086", "yaml-16" },
   [".json"] = { "#854CC7", "json-16" },
   [".css"] = { "#563d7c", "css-16" },
   [".html"] = { "#e34c26", "html-16" },
@@ -98,6 +99,12 @@ local extension_icons = {
   [".ini"] = { "#ffffff", "pencil-16" },
   [".fish"] = { "#ca2c92", "terminal-16" },
   [".bash"] = { "#4169e1", "terminal-16" },
+  [".lang"]       = { "#FFB347", "book-16" },          -- language/utterances file, book icon
+  [".intent"]     = { "#7FFF00", "pulse-16" },          -- intent definitions, code icon
+  [".entity"]     = { "#20B2AA", "database-16" },      -- entity definitions, database icon
+  [".constdata"]  = { "#FF6347", "gear-16" },          -- constants (new extension), gear icon
+  [".config"]     = { "#4682B4", "desktop-download-16" }, -- settings/config (new extension), settings icon
+  [".avi"]        =   { "#FF1493", "zap-16" }
 }
 local known_names_icons = {
   ["changelog"] = { "#657175", "history-16" }, ["changelog.txt"] = { "#4d5a5e", "history-16" },

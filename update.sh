@@ -1,12 +1,17 @@
+# Protect start.lua
 cp avi-studio/data/core/start.lua /tmp/start.lua.backup
 
-rm -rf avi-studio/data/core
-cp -r data/core avi-studio/data
+# Sync core (only changes)
+rsync -av --delete \
+  --exclude=start.lua \
+  data/core/ avi-studio/data/core/
 
+# Restore protected file
 mv /tmp/start.lua.backup avi-studio/data/core/start.lua
 
-rm -rf avi-studio/data/plugins
-cp -r data/plugins avi-studio/data
+# Sync plugins (only changes)
+rsync -av --delete \
+  data/plugins/ avi-studio/data/plugins/
 
 
 cd ./avi-studio

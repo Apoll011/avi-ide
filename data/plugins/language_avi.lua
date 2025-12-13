@@ -26,10 +26,10 @@ syntax.add {
     { pattern = "%d+_?%d*",                                        type = "number"   },
     
     -- Lifetimes (e.g., 'a, 'static)
-    { pattern = "'[%a_][%w_]*",                                    type = "keyword2" },
+    { pattern = "'[%a_][%w_]*",                                    type = "keyword" },
     
     -- Type annotations (Type after colon)
-    { pattern = ":%s*[A-Z][%w_]*",                                 type = "keyword2" },
+    { pattern = ":%s*[A-Z][%w_]*",                                type = "keyword" },
     
     -- Operators (compound operators first!)
     { pattern = ":=",                                              type = "operator" },
@@ -58,18 +58,11 @@ syntax.add {
     { pattern = "[%+%-=/%*%%<>!%^&|~]",                            type = "operator" },
     { pattern = "%?",                                              type = "operator" },
     
-    -- Function definitions (fn keyword followed by name)
     { pattern = "fn%s+()[%a_][%w_]*",                              type = { "keyword", "function" } },
     
     -- Function calls (identifier followed by opening parenthesis)
-    { pattern = "[%a_][%w_]*%s*%f[(]",                             type = "function" },
-    
-    -- Type names (capitalized identifiers)
-    { pattern = "[A-Z][%w_]*",                                     type = "keyword2" },
-    
-    -- Named parameters (identifier followed by colon in function call)
-    { pattern = "[%a_][%w_]*%s*:",                                 type = "function" },
-    
+    { pattern = "[%a_][%w_]*%f[(]",                             type = "function" },
+        
     -- Generic/swizzle patterns (like .xyz, .rgba)
     { pattern = "%.[xyzwrgba]+",                                   type = "keyword"  },
     
