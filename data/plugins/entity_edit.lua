@@ -71,7 +71,7 @@ function EntityView:draw_info_section(x, y, width, label, value, value_color)
   
   -- Label
   renderer.draw_text(style.font, label, content_x, content_y, style.dim)
-  content_y = content_y + style.font:get_height() + 4
+  content_y = content_y + style.font:get_height() + 2
   
   -- Value
   local display_value = tostring(value)
@@ -185,14 +185,14 @@ function EntityView:draw()
   renderer.draw_rect(x, y, w, hero_height, style.line_highlight)
   renderer.draw_rect(x, y, w, 4, style.accent)
   
-  local hero_y = y + 25
+  local hero_y = y + 10
   local title_font = style.big_font or style.font
   local entity_name = tostring(self.data.name or "Unknown Entity")
   renderer.draw_text(title_font, entity_name, x + 20, hero_y, style.accent)
   
-  hero_y = hero_y + title_font:get_height() + 5
+  hero_y = hero_y + title_font:get_height() - 5
   local entity_type = tostring(self.data.type or "entity")
-  renderer.draw_text(style.font, "Type: " .. entity_type, x + 20, hero_y, style.dim)
+  renderer.draw_text(style.font, "Type: " .. entity_type, x + 20, hero_y, style.accent)
   
   y = y + hero_height + 30
   
@@ -209,18 +209,18 @@ function EntityView:draw()
   local extensible = self.data.automatically_extensible
   local ext_text = extensible and "Yes" or "No"
   local ext_color = extensible and style.accent or style.dim
-  self:draw_info_section(col1_x, row1_y, col_width, "AUTO EXTENSIBLE", ext_text, ext_color)
+  self:draw_info_section(col1_x, row1_y, col_width, "Auto Extensible", ext_text, ext_color)
   
   -- Use synonyms
   local use_syn = self.data.use_synonyms
   local syn_text = use_syn and "Yes" or "No"
   local syn_color = use_syn and style.accent or style.dim
-  self:draw_info_section(col2_x, row1_y, col_width, "USE SYNONYMS", syn_text, syn_color)
+  self:draw_info_section(col2_x, row1_y, col_width, "Use Synonyms", syn_text, syn_color)
   
   -- Matching strictness
   local strictness = self.data.matching_strictness or 1.0
   local strictness_text = string.format("%.1f", strictness)
-  self:draw_info_section(col3_x, row1_y, col_width, "MATCHING STRICTNESS", strictness_text, style.accent)
+  self:draw_info_section(col3_x, row1_y, col_width, "Matching Strictness", strictness_text, style.accent)
   
   y = row1_y + 80
   

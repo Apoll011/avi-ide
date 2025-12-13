@@ -271,12 +271,12 @@ function IntentView:draw()
   renderer.draw_rect(x, y, w, hero_height, style.line_highlight)
   renderer.draw_rect(x, y, w, 4, style.accent)
   
-  local hero_y = y + 25
+  local hero_y = y + 10
   local title_font = style.big_font or style.font
   local intent_name = tostring(self.data.name or "Unknown Intent")
   renderer.draw_text(title_font, intent_name, x + 20, hero_y, style.accent)
   
-  hero_y = hero_y + title_font:get_height() + 5
+  hero_y = hero_y + title_font:get_height() - 5
   local intent_type = tostring(self.data.type or "intent")
   renderer.draw_text(style.font, "Type: " .. intent_type, x + 20, hero_y, style.dim)
   

@@ -108,7 +108,7 @@ function ManifestView:draw_list_section(x, y, width, title, items)
   
   -- Divider
   renderer.draw_rect(content_x, content_y, width - 40, 1, style.divider)
-  content_y = content_y + 15
+  content_y = content_y
   
   -- Draw each item
   for i, item in ipairs(items) do
