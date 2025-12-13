@@ -17,8 +17,7 @@ subprojects/.wraplock
 *App*
 compile_commands.json
 error.txt
-avi-studio*
-Avi-Studio*
+avi-studio/
 
 !resources/windows/*.diff
 !resources/windows/*.exe.manifest.in
