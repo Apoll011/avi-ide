@@ -1,85 +1,108 @@
-# Pragtical
+# Avi Studio
 
-The practical and pragmatic code editor.
-
-[website] | [documentation] | [download]
-
-[![Build Rolling]](https://github.com/pragtical/pragtical/actions/workflows/rolling.yml)
-[![Discord]](https://discord.gg/8V2yJtn3Fc)
+Avi Studio is a lightweight IDE for creating, editing, and testing **Avi skills**.
 
 ![screenshot](https://pragtical.github.io/assets/img/editor.png)
 
+It is built specifically for the Avi ecosystem and focuses on the Avi DSL and skill workflow, rather than being a general-purpose editor.
+
+Avi Studio is a fork of **Pragtical**, which itself is a fork of **Lite XL**. It keeps the same core philosophy: fast startup, small footprint, C core with Lua extensibility.
+
+> ⚠️ **Early development**: this project is experimental and incomplete.
+
+---
 ## Download
 
-* **[Get Pragtical]** — Download Pre-built releases for Windows, Linux and Mac OS.
+* **[Get Avi Studio]** — Download Pre-built releases for Windows, Linux and Mac OS.
 * **[Get Plugins]** — Add additional functionality.
 * **[Get Color Themes]** — Additional color themes (bundled with all releases
-of Pragtical by default).
+of Avi Studio by default).
 
 A list of changes is registered on the [changelog] file. Please refer to our
 [website] for the user and developer [documentation], including more detailed
 [build] instructions.
+---
 
-## Quick Build Guide
+## What is Avi Studio?
 
-1. Clone this repository
+Avi Studio aims to be the main tool for developers writing skills for Avi:
 
-```sh
-git clone https://github.com/pragtical/pragtical
+* Write Avi DSL code
+* Organise skills as projects
+* Test and validate skills locally
+* Upload skills to an Avi device
+* Publish skills to a shared repository
+
+Right now, only the first step exists.
+
+---
+
+## Current Features
+
+* Syntax highlighting for the **Avi DSL**
+
+That’s it. Everything else is planned.
+
+---
+
+## Planned Features
+
+* `make skill` command / wizard
+* Skill project templates
+* Skill validation and linting
+* Local testing tools
+* Upload skills directly to Avi devices
+* Repository integration (store, fetch, publish skills)
+* Better language tooling (intents, triggers, actions)
+
+The scope will grow as Avi itself evolves.
+
+---
+
+## Tech Stack
+
+* **C** — editor core (via Pragtical / Lite XL)
+* **Lua** — editor logic, plugins, language support
+
+If you’ve worked with Lite XL before, you’ll feel at home.
+
+---
+
+## Building
+
+First Run to compile the Executable: 
+
+```
+./build-packages.sh -P -f
 ```
 
-2. Setup and compile the project
-
-```sh
-meson setup --wrap-mode=forcefallback -Dportable=true build
-meson compile -C build
+Then if avi-studio folder is not generated, run:
+```
+bash scripts/package.sh --version dev (build folder) --addons --debug --binary --release
 ```
 
-> [!NOTE]
-> We set `--wrap-mode` to forcefallback to download and build all the dependencies
-> which will take longer. If you have all dependencies installed on your system
-> you can skip this flag. Also notice we set the `portable` flag to true, this
-> way the install process will generate a directory structure that is easily
-> relocatable.
-
-3. Install and profit!
-
-```sh
-meson install -C build --destdir ../pragtical
-```
-
-You will now see a new directory called `pragtical` that will contain the
-executable and all the necessary files to run the editor. Feel free to move or
-rename this directory however you wish.
-
-For more detailed instructions visit: https://pragtical.dev/docs/setup/building
+---
 
 ## Contributing
 
-Pull requests to improve or modify the editor itself are welcome.
+Contributions are welcome, especially:
 
-Additional functionality can be added through a plugin by sending a
-pull request to the [plugins repository]. If you think the functionality should
-be added to the core editor open an issue so we can discuss it.
+* Avi DSL tooling
+* Editor plugins (Lua)
+* UX improvements
+* Documentation
 
-## Licenses
+Expect breaking changes. This is still moving fast.
 
-This project is free software; you can redistribute it and/or modify it under
-the terms of the MIT license. See [LICENSE] for details.
+---
 
-See the [licenses] directory for details on licenses used by the required dependencies.
+## Project Status
 
+> Avi Studio is under active development.
+> APIs, formats, and workflows may change at any time.
 
-[Build Rolling]:      https://github.com/pragtical/pragtical/actions/workflows/rolling.yml/badge.svg
-[Discord]:            https://discord.com/api/guilds/1285023036071743542/widget.png?style=shield
-[website]:            https://pragtical.dev
-[documentation]:      https://pragtical.dev/docs/intro
-[download]:           https://github.com/pragtical/pragtical/releases
-[build]:              https://pragtical.dev/docs/setup/building
-[Get Pragtical]:      https://github.com/pragtical/pragtical/releases
-[Get Plugins]:        https://github.com/pragtical/plugins
-[Get Color Themes]:   https://github.com/pragtical/colors
-[plugins repository]: https://github.com/pragtical/plugins
-[changelog]:          https://github.com/pragtical/pragtical/blob/master/changelog.md
-[LICENSE]:            LICENSE
-[licenses]:           licenses/licenses.md
+---
+
+## License
+
+License information will be added.

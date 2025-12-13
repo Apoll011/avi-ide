@@ -10,10 +10,10 @@ copy_directory_from_repo () {
   fi
   local dirname="$1"
   local destdir="$2"
-  git archive "$pragtical_branch" "$dirname" --format=tar | tar xf - -C "$destdir" "${tar_options[@]}"
+  git archive "$avi_studio_branch" "$dirname" --format=tar | tar xf - -C "$destdir" "${tar_options[@]}"
 }
 
-pragtical_copy_third_party_modules () {
+avi_studio_copy_third_party_modules () {
     local build="$1"
     curl --retry 5 --retry-delay 3 --insecure -L "https://github.com/pragtical/colors/archive/master.zip" -o "$build/colors.zip" || exit 1
     mkdir -p "$build/third/data/colors" "$build/third/data/plugins"
@@ -23,7 +23,7 @@ pragtical_copy_third_party_modules () {
     rm "$build/colors.zip"
 }
 
-pragtical_branch=master
+avi_studio_branch=master
 while [ ! -z ${1+x} ]; do
   case "$1" in
     -dir)
@@ -31,7 +31,7 @@ while [ ! -z ${1+x} ]; do
     shift 2
     ;;
     -branch)
-    pragtical_branch="$2"
+    avi_studio_branch="$2"
     shift 2
     ;;
     *)
@@ -68,7 +68,7 @@ else
   fetch_packages_from_dir "$use_dir"
 fi
 
-pragtical_copy_third_party_modules "."
+avi_studio_copy_third_party_modules "."
 
 for filename in $(ls -1 *.zip *.tar.*); do
     if [[ $filename == *".zip" ]]; then
@@ -77,29 +77,29 @@ for filename in $(ls -1 *.zip *.tar.*); do
         tar xf "$filename"
     fi
     rm "$filename"
-    find pragtical -name pragtical -exec chmod a+x '{}' \;
-    start_file=$(find pragtical -name start.lua)
-    pragtical_version=$(cat "$start_file" | awk 'match($0, /^\s*VERSION\s*=\s*"(.+)"/, a) { print(a[1]) }')
-    xcoredir="$(find pragtical -type d -name 'core')"
+    find avi-studio -name avi-studio -exec chmod a+x '{}' \;
+    start_file=$(find avi-studio -name start.lua)
+    avi_studio_version=$(cat "$start_file" | awk 'match($0, /^\s*VERSION\s*=\s*"(.+)"/, a) { print(a[1]) }')
+    xcoredir="$(find avi-studio -type d -name 'core')"
     coredir="$(dirname $xcoredir)"
     echo "coredir: $coredir"
-    cp -r "pragtical" "pragtical.original"
+    cp -r "avi-studio" "avi-studio.original"
     for module_name in core plugins colors; do
         rm -fr "$coredir/$module_name"
         (cd .. && copy_directory_from_repo --strip-components=1 "data/$module_name" "$workdir/$coredir")
     done
-    sed -i "s/@PROJECT_VERSION@/$pragtical_version/g" "$start_file"
+    sed -i "s/@PROJECT_VERSION@/$avi_studio_version/g" "$start_file"
     for module_name in plugins colors; do
         cp -r "third/data/$module_name" "$coredir"
     done
     if [[ $filename == *".zip" ]]; then
-        zip -qq -r -9 "$filename" pragtical
-        diff -U 4 -r pragtical.original pragtical > "${filename/%.zip/.diff}"
+        zip -qq -r -9 "$filename" avi-studio
+        diff -U 4 -r avi-studio.original avi-studio > "${filename/%.zip/.diff}"
     elif [[ $filename == *".tar."* ]]; then
-        tar czf "${filename/%.tar.*/.tar.gz}" pragtical
-        diff -U 4 -r pragtical.original pragtical > "${filename/%.tar.*/.diff}"
+        tar czf "${filename/%.tar.*/.tar.gz}" avi-studio
+        diff -U 4 -r avi-studio.original avi-studio > "${filename/%.tar.*/.diff}"
     fi
-    rm -fr pragtical pragtical.original
+    rm -fr avi-studio avi-studio.original
 done
 
 popd

@@ -2,7 +2,7 @@
 set -e
 
 if [ ! -e "src/api/api.h" ]; then
-  echo "Please run this script from the root directory of Pragtical."
+  echo "Please run this script from the root directory of Avi Studio."
   exit 1
 fi
 
@@ -197,7 +197,7 @@ main() {
     echo "Download meson subprojects..."
     meson subprojects download
 
-    echo "Build pragtical..."
+    echo "Build avi-studio..."
     if [[ $static_build == false ]]; then
       meson setup \
         --buildtype=$build_type \
@@ -231,50 +231,50 @@ main() {
   fi
 
   # Generate AppImage
-  if [ -e Pragtical.AppDir ]; then
-    rm -rf Pragtical.AppDir
+  if [ -e AviStudio.AppDir ]; then
+    rm -rf AviStudio.AppDir
   fi
 
-  echo "Creating Pragtical.AppDir..."
+  echo "Creating AviStudio.AppDir..."
 
   strip_flag=""
   if [[ $build_type == "release" ]]; then
     strip_flag="--strip"
   fi
 
-  DESTDIR="../Pragtical.AppDir/usr" meson install $strip_flag \
+  DESTDIR="../AviStudio.AppDir/usr" meson install $strip_flag \
     --skip-subprojects="freetype2,pcre2,sdl3" -C "${build_dir}"
 
   if [[ $run_build == false ]]; then
     # When using existing build the install path can still be wrong after reconfigure
-    if [ -e "Pragtical.AppDir/usr/data" ]; then
-      cp -a Pragtical.AppDir/usr/data/* "Pragtical.AppDir/usr/share/pragtical/"
-      rm -rf "Pragtical.AppDir/usr/data"
+    if [ -e "AviStudio.AppDir/usr/data" ]; then
+      cp -a AviStudio.AppDir/usr/data/* "AviStudio.AppDir/usr/share/avi-studio/"
+      rm -rf "AviStudio.AppDir/usr/data"
     fi
   fi
 
   if [[ -z "$cross" ]]; then
-    polyfill_glibc Pragtical.AppDir/usr/bin/pragtical
+    polyfill_glibc AviStudio.AppDir/usr/bin/avi-studio
   fi
 
-  cp "AppRun.$arch" Pragtical.AppDir/AppRun
-  cp -av "subprojects/ppm/libraries" Pragtical.AppDir/usr/share/pragtical/
-  cp -av "subprojects/ppm/plugins/plugin_manager" Pragtical.AppDir/usr/share/pragtical/plugins/
-  cp "$ppm_file" Pragtical.AppDir/usr/share/pragtical/plugins/plugin_manager/
+  cp "AppRun.$arch" AviStudio.AppDir/AppRun
+  cp -av "subprojects/ppm/libraries" AviStudio.AppDir/usr/share/avi-studio/
+  cp -av "subprojects/ppm/plugins/plugin_manager" AviStudio.AppDir/usr/share/avi-studio/plugins/
+  cp "$ppm_file" AviStudio.AppDir/usr/share/avi-studio/plugins/plugin_manager/
 
   # These could be symlinks but it seems they doesn't work with AppimageLauncher
-  cp resources/icons/logo.svg Pragtical.AppDir/avi-studio.svg
-  cp resources/linux/dev.avi.Studio.desktop Pragtical.AppDir/
+  cp resources/icons/logo.svg AviStudio.AppDir/avi-studio.svg
+  cp resources/linux/dev.avi.Studio.desktop AviStudio.AppDir/
 
   if [[ $addons == true ]]; then
     addons_download "${build_dir}"
-    addons_install "${build_dir}" "Pragtical.AppDir/usr/share/pragtical"
+    addons_install "${build_dir}" "AviStudio.AppDir/usr/share/avi-studio"
   fi
 
   if [[ $static_build == false ]]; then
     echo "Copying libraries..."
 
-    mkdir -p Pragtical.AppDir/usr/lib/
+    mkdir -p AviStudio.AppDir/usr/lib/
 
     local allowed_libs=(
       libfreetype
@@ -289,19 +289,19 @@ main() {
       local libpath="$(echo $line | cut -d' ' -f2)"
       for lib in "${allowed_libs[@]}" ; do
         if echo "$libname" | grep "$lib" > /dev/null ; then
-          cp "$libpath" Pragtical.AppDir/usr/lib/
+          cp "$libpath" AviStudio.AppDir/usr/lib/
           continue 2
         fi
       done
       echo "  Ignoring: $libname"
-    done < <(ldd "${build_dir}/src/pragtical" | awk '{print $1 " " $3}')
+    done < <(ldd "${build_dir}/src/avi-studio" | awk '{print $1 " " $3}')
   fi
 
   echo "Generating AppImage..."
 
   $appimagebin --appimage-extract-and-run --runtime-file "runtime-${arch}" \
-    Pragtical.AppDir \
-    "Pragtical${version}-${arch}.AppImage"
+    AviStudio.AppDir \
+    "AviStudio${version}-${arch}.AppImage"
 }
 
 main "$@"
