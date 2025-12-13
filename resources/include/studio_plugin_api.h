@@ -1,28 +1,28 @@
 /**
- * pragtical_plugin_api.h
- * API for writing C extension modules loaded by Pragtical.
+ * studio_plugin_api.h
+ * API for writing C extension modules loaded by Avi Studio.
  * This file is licensed under MIT.
  *
- * The Pragtical plugin API is quite simple.
+ * The Avi Studio plugin API is quite simple.
  * You would write a lua C extension and replace any references to lua.h, lauxlib.h
- * and lualib.h with pragtical_plugin_api.h.
- * In your main file (where your entrypoint resides), define PRAGTICAL_PLUGIN_ENTRYPOINT.
- * If you have multiple entrypoints, define PRAGTICAL_PLUGIN_ENTRYPOINT in one of them.
+ * and lualib.h with studio_plugin_api.h.
+ * In your main file (where your entrypoint resides), define AVI_STUDIO_PLUGIN_ENTRYPOINT.
+ * If you have multiple entrypoints, define AVI_STUDIO_PLUGIN_ENTRYPOINT in one of them.
  *
- * After that, you need to create a Pragtical entrypoint, which is formatted as
- * luaopen_pragtical_xxxxx instead of luaopen_xxxxx.
+ * After that, you need to create a Avi Studio entrypoint, which is formatted as
+ * luaopen_avi_studio_xxxxx instead of luaopen_xxxxx.
  * This entrypoint accepts a lua_State and an extra parameter of type void *.
- * In this entrypoint, call pragtical_plugin_init() with the extra parameter.
- * If you have multiple entrypoints, you must call pragtical_plugin_init() in
+ * In this entrypoint, call avi_studio_plugin_init() with the extra parameter.
+ * If you have multiple entrypoints, you must call avi_studio_plugin_init() in
  * each of them.
  * This function is not thread safe, so don't try to do anything stupid.
  *
  * An example:
  *
- * #define PRAGTICAL_PLUGIN_ENTRYPOINT
- * #include "pragtical_plugin_api.h"
- * int luaopen_pragtical_xxxxx(lua_State* L, void* XL) {
- *   pragtical_plugin_init(XL);
+ * #define AVI_STUDIO_PLUGIN_ENTRYPOINT
+ * #include "studio_plugin_api.h"
+ * int luaopen_avi_studio_xxxxx(lua_State* L, void* XL) {
+ *   avi_studio_plugin_init(XL);
  *   ...
  *   return 1;
  * }
@@ -35,8 +35,8 @@
  * DO NOT MODIFY ANYTHING. MODIFYING STUFFS IN HERE WILL BREAK
  * COMPATIBILITY WITH PRAGTICAL AND CAUSE UNDEBUGGABLE BUGS.
 **/
-#ifndef PRAGTICAL_PLUGIN_API
-#define PRAGTICAL_PLUGIN_API
+#ifndef studio_plugin_api
+#define studio_plugin_api
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -73,20 +73,20 @@
   __##name(__VA_ARGS__)
 
 #define SYMBOL_WRAP_CALL_FB(name, ...) \
-  return __pragtical_fallback_##name(__VA_ARGS__)
+  return __avi_studio_fallback_##name(__VA_ARGS__)
 
-#ifdef PRAGTICAL_PLUGIN_ENTRYPOINT
+#ifdef AVI_STUDIO_PLUGIN_ENTRYPOINT
   #define SYMBOL_DECLARE(ret, name, ...) \
     static ret (*__##name)  (__VA_ARGS__); \
     SYMBOL_WRAP_DECL(ret, name, __VA_ARGS__); \
-    static ret __pragtical_fallback_##name(FOR_EACH(UNUSED, __VA_ARGS__)) { \
+    static ret __avi_studio_fallback_##name(FOR_EACH(UNUSED, __VA_ARGS__)) { \
       fputs("warning: " #name " is a stub", stderr); \
       exit(1); \
     }
   #define SYMBOL_DECLARE_VARARG(ret, name, ...) \
     static ret (*__##name)  (__VA_ARGS__, ...); \
     SYMBOL_WRAP_DECL(ret, name, __VA_ARGS__, ...); \
-    static ret __pragtical_fallback_##name(FOR_EACH(UNUSED, __VA_ARGS__), ...) { \
+    static ret __avi_studio_fallback_##name(FOR_EACH(UNUSED, __VA_ARGS__), ...) { \
       fputs("warning: " #name " is a stub", stderr); \
       exit(1); \
     }
@@ -1731,7 +1731,7 @@ SYMBOL_DECLARE(void, luaL_openlibs, lua_State *L)
 
 
 
-#ifdef PRAGTICAL_PLUGIN_ENTRYPOINT
+#ifdef AVI_STUDIO_PLUGIN_ENTRYPOINT
 
 SYMBOL_WRAP_DECL(lua_State *, lua_newstate, lua_Alloc f, void *ud) {
   return SYMBOL_WRAP_CALL(lua_newstate, f, ud);
@@ -2362,13 +2362,13 @@ SYMBOL_WRAP_DECL(void, luaL_openlibs, lua_State *L) {
 #define IMPORT_SYMBOL(name, ret, ...) \
   __##name = (\
     (*(void **) (&__##name) = symbol(#name)), \
-    __##name == NULL ? ((ret (*) (__VA_ARGS__)) &__pragtical_fallback_##name) : __##name\
+    __##name == NULL ? ((ret (*) (__VA_ARGS__)) &__avi_studio_fallback_##name) : __##name\
   )
 
 #define IMPORT_CONSTANT(name, type) \
   name = (type)((long) symbol(#name))
 
-void pragtical_plugin_init(void *XL) {
+void avi_studio_plugin_init(void *XL) {
   void* (*symbol)(const char *);
   *(void **) (&symbol) = XL;
   IMPORT_CONSTANT(LUA_REGISTRYINDEX, int);
@@ -2536,13 +2536,13 @@ void pragtical_plugin_init(void *XL) {
 #undef IMPORT_SYMBOL
 #undef IMPORT_CONSTANT
 
-#else /* PRAGTICAL_PLUGIN_ENTRYPOINT */
+#else /* AVI_STUDIO_PLUGIN_ENTRYPOINT */
 
-void pragtical_plugin_init(void *XL);
+void avi_studio_plugin_init(void *XL);
 
-#endif /* PRAGTICAL_PLUGIN_ENTRYPOINT */
+#endif /* AVI_STUDIO_PLUGIN_ENTRYPOINT */
 
-#undef PRAGTICAL_API
+#undef AVI_STUDIO_API
 #undef SYMBOL_WRAP_DECL
 #undef SYMBOL_WRAP_CALL
 #undef SYMBOL_WRAP_CALL_FB
@@ -2568,7 +2568,7 @@ void pragtical_plugin_init(void *XL);
 #undef FOR_EACH_
 #undef FOR_EACH
 
-#endif /* PRAGTICAL_PLUGIN_API */
+#endif /* studio_plugin_api */
 
 /******************************************************************************
 * Copyright (C) 1994-2023 Lua.org, PUC-Rio; Pragtical contributors.

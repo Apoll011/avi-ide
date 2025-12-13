@@ -382,7 +382,7 @@ top:
       {
         RenWindow** window_list;
         size_t window_count = ren_get_window_list(&window_list);
-        #ifdef PRAGTICAL_USE_SDL_RENDERER
+        #ifdef AVI_STUDIO_USE_SDL_RENDERER
           while (window_count) {
             rencache_invalidate(&window_list[--window_count]->cache);
           }
@@ -479,7 +479,7 @@ static int f_set_cursor(lua_State *L) {
 
 
 static int f_get_scale(lua_State *L) {
-#ifdef PRAGTICAL_USE_SDL_RENDERER
+#ifdef AVI_STUDIO_USE_SDL_RENDERER
   /* Since scaling is performed internally always return 1 */
   lua_pushinteger(L, 1);
   return 1;
@@ -487,7 +487,7 @@ static int f_get_scale(lua_State *L) {
   RenWindow *window_renderer = *(RenWindow**)luaL_checkudata(L, 1, API_TYPE_RENWINDOW);
   lua_pushnumber(L, SDL_GetWindowDisplayScale(window_renderer->cache.window));
   return 1;
-#endif /* PRAGTICAL_USE_SDL_RENDERER */
+#endif /* AVI_STUDIO_USE_SDL_RENDERER */
 }
 
 
@@ -956,7 +956,7 @@ static int f_fuzzy_match(lua_State *L) {
   const char *str = luaL_checklstring(L, 1, &strLen);
   const char *ptn = luaL_checklstring(L, 2, &ptnLen);
   // If true match things *backwards*. This allows for better matching on filenames than the above
-  // function. For example, in the pragtical project, opening "renderer" has lib/font_render/build.sh
+  // function. For example, in the Avi Studio project, opening "renderer" has lib/font_render/build.sh
   // as the first result, rather than src/renderer.c. Clearly that's wrong.
   bool files = lua_gettop(L) > 2 && lua_isboolean(L,3) && lua_toboolean(L, 3);
   int score = 0, run = 0, increment = files ? -1 : 1;
@@ -1111,7 +1111,7 @@ static int f_load_native_plugin(lua_State *L) {
 
   const char *basename = strrchr(name, '.');
   basename = !basename ? name : basename + 1;
-  snprintf(entrypoint_name, sizeof(entrypoint_name), "luaopen_pragtical_%s", basename);
+  snprintf(entrypoint_name, sizeof(entrypoint_name), "luaopen_avi_studio_%s", basename);
   int (*ext_entrypoint) (lua_State *L, void* (*)(const char*));
   *(void**)(&ext_entrypoint) = SDL_LoadFunction(library, entrypoint_name);
   /*compatibility with Lite XL entry point name*/

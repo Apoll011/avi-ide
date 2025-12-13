@@ -1,4 +1,4 @@
-project('pragtical',
+project('avi-studio',
     ['c', 'cpp'],
     version : '3.7.1',
     license : 'MIT',
@@ -88,27 +88,27 @@ if host_machine.system() == 'darwin'
     add_languages('objc')
 endif
 
-pragtical_includes = []
-pragtical_cargs = [
+avi_studio_includes = []
+avi_studio_cargs = [
     '-DPCRE2_STATIC',
-    '-DPRAGTICAL_PROJECT_VERSION_STR="@0@"'.format(version)
+    '-DAVI_STUDIO_PROJECT_VERSION_STR="@0@"'.format(version)
 ]
 if get_option('renderer')
-    pragtical_cargs += '-DPRAGTICAL_USE_SDL_RENDERER'
+    avi_studio_cargs += '-DAVI_STUDIO_USE_SDL_RENDERER'
 endif
 if get_option('arch_tuple') != ''
     arch_tuple = get_option('arch_tuple')
 else
     arch_tuple = '@0@-@1@'.format(target_machine.cpu_family(), target_machine.system())
 endif
-pragtical_cargs += '-DPRAGTICAL_ARCH_TUPLE="@0@"'.format(arch_tuple)
+avi_studio_cargs += '-DAVI_STUDIO_ARCH_TUPLE="@0@"'.format(arch_tuple)
 
 #===============================================================================
 # Linker Settings
 #===============================================================================
-pragtical_link_args = []
+avi_studio_link_args = []
 if host_machine.system() == 'darwin'
-    pragtical_link_args += ['-framework', 'CoreServices', '-framework', 'Foundation']
+    avi_studio_link_args += ['-framework', 'CoreServices', '-framework', 'Foundation']
 endif
 
 #===============================================================================
@@ -161,7 +161,7 @@ if not get_option('source-only')
         endforeach
     else
         lua_dep = luajit_dep
-        pragtical_cargs += '-DLUA_JIT'
+        avi_studio_cargs += '-DLUA_JIT'
     endif
 
     pcre2_dep = dependency('libpcre2-8', fallback: ['pcre2', 'libpcre2_8'],
@@ -221,7 +221,7 @@ if not get_option('source-only')
             'SDL_X11': sdl_x11, 'SDL_WAYLAND': sdl_wayland, 'SDL_TESTS': 'OFF',
             'SDL_OPENGL': sdl_opengl, 'SDL_OPENGLES': sdl_opengles,
             'SDL_DIRECTX': 'ON', 'SDL_EXAMPLES': 'OFF',
-            'SDL_VENDOR_INFO': 'pragtical'
+            'SDL_VENDOR_INFO': 'avi-studio',
         })
 
         sdl = cmake.subproject('sdl3', options: sdl_options)
@@ -236,7 +236,7 @@ if not get_option('source-only')
         default_options: default_fallback_options + ['default_library=static']
     )
 
-    pragtical_deps = [lua_dep, sdl_dep, sdl_uclibc_dep, sdl_image, freetype_dep, pcre2_dep, uchardet_dep, libm, libdl, librt]
+    avi_studio_deps = [lua_dep, sdl_dep, sdl_uclibc_dep, sdl_image, freetype_dep, pcre2_dep, uchardet_dep, libm, libdl, librt]
 endif
 
 lua_compat_needed = lua_dep.version() < '5.3.0'
@@ -245,31 +245,31 @@ lua_compat_needed = lua_dep.version() < '5.3.0'
 # Check for X11 existence to detect scale factor when video driver is x11
 #===============================================================================
 if host_machine.system() != 'darwin' and cc.find_library('X11', required : false).found()
-    pragtical_cargs += '-DX11_FOUND'
+    avi_studio_cargs += '-DX11_FOUND'
 endif
 
 #===============================================================================
 # Install Configuration
 #===============================================================================
 if get_option('portable') or host_machine.system() == 'windows'
-    pragtical_bindir = '/'
-    pragtical_docdir = '/doc'
-    pragtical_datadir = '/data'
+    avi_studio_bindir = '/'
+    avi_studio_docdir = '/doc'
+    avi_studio_datadir = '/data'
     if host_machine.system() == 'windows'
         configure_file(
-            input: 'resources/windows/pragtical.exe.manifest.in',
-            output: 'pragtical.exe.manifest',
+            input: 'resources/windows/avi-studio.exe.manifest.in',
+            output: 'avi-studio.exe.manifest',
             configuration: conf_data
         )
     endif
     install_data('resources/portable/README.md',
-        install_dir : pragtical_bindir / 'user'
+        install_dir : avi_studio_bindir / 'user'
     )
 elif get_option('bundle') and host_machine.system() == 'darwin'
-    pragtical_cargs += '-DMACOS_USE_BUNDLE'
-    pragtical_bindir = 'Contents/MacOS'
-    pragtical_docdir = 'Contents/Resources'
-    pragtical_datadir = 'Contents/Resources'
+    avi_studio_cargs += '-DMACOS_USE_BUNDLE'
+    avi_studio_bindir = 'Contents/MacOS'
+    avi_studio_docdir = 'Contents/Resources'
+    avi_studio_datadir = 'Contents/Resources'
     conf_data.set(
         'CURRENT_YEAR',
         run_command('date', '+%Y', capture: true).stdout().strip()
@@ -283,27 +283,27 @@ elif get_option('bundle') and host_machine.system() == 'darwin'
         install_dir : 'Contents'
     )
 else
-    pragtical_bindir = 'bin'
-    pragtical_docdir = 'share/doc/pragtical'
-    pragtical_datadir = 'share/pragtical'
+    avi_studio_bindir = 'bin'
+    avi_studio_docdir = 'share/doc/avi-studio'
+    avi_studio_datadir = 'share/avi-studio'
     if host_machine.system() == 'linux'
         install_data('resources/icons/logo.svg',
             install_dir : 'share/icons/hicolor/scalable/apps',
             rename : 'pragtical.svg'
         )
-        install_data('resources/linux/dev.pragtical.Pragtical.desktop',
+        install_data('resources/linux/dev.avi.Studio.desktop',
             install_dir : 'share/applications'
         )
-        install_data('resources/linux/dev.pragtical.Pragtical.appdata.xml',
+        install_data('resources/linux/dev.avi.Studio.appdata.xml',
             install_dir : 'share/metainfo'
         )
     endif
 endif
 
-install_data('licenses/licenses.md', install_dir : pragtical_docdir)
+install_data('licenses/licenses.md', install_dir : avi_studio_docdir)
 
-install_subdir('docs/api' , install_dir : pragtical_datadir, strip_directory: true)
-install_subdir('data/core' , install_dir : pragtical_datadir, exclude_files : 'start.lua')
+install_subdir('docs/api' , install_dir : avi_studio_datadir, strip_directory: true)
+install_subdir('data/core' , install_dir : avi_studio_datadir, exclude_files : 'start.lua')
 
 fs = import('fs')
 
@@ -314,30 +314,30 @@ endif
 foreach data_module : data_dirs
     module_path = 'data' / data_module
     if fs.exists(module_path)
-        install_subdir(module_path, install_dir : pragtical_datadir)
+        install_subdir(module_path, install_dir : avi_studio_datadir)
     else
-        install_emptydir(pragtical_datadir / data_module)
+        install_emptydir(avi_studio_datadir / data_module)
     endif
 endforeach
 
 # Pull in widgets if necessary
 if not fs.exists('data/widget/init.lua')
-    subproject('widget', default_options: ['data_dir='+pragtical_datadir])
+    subproject('widget', default_options: ['data_dir='+avi_studio_datadir])
 endif
 
 # Pull extra colors
 if get_option('extra_colors')
-    subproject('colors', default_options: ['data_dir='+pragtical_datadir])
+    subproject('colors', default_options: ['data_dir='+avi_studio_datadir])
 endif
 
 # Pull extra languages
 if get_option('extra_languages')
-    subproject('plugins', default_options: ['data_dir='+pragtical_datadir])
+    subproject('plugins', default_options: ['data_dir='+avi_studio_datadir])
 endif
 
 # Include the plugin manager
 if get_option('ppm')
-    default_ppm_options = ['data_dir='+pragtical_datadir, 'arch_tuple='+arch_tuple]
+    default_ppm_options = ['data_dir='+avi_studio_datadir, 'arch_tuple='+arch_tuple]
     if get_option('wrap_mode') == 'forcefallback'
         default_ppm_options += 'prefer_static=true'
     endif
@@ -348,7 +348,7 @@ configure_file(
     input : 'data/core/start.lua',
     output : 'start.lua',
     configuration : conf_data,
-    install_dir : join_paths(pragtical_datadir, 'core'),
+    install_dir : join_paths(avi_studio_datadir, 'core'),
 )
 
 if not get_option('source-only')

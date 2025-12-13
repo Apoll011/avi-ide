@@ -19,8 +19,8 @@ This folder contains resources that is used for building or packaging the projec
 
 ### Development
 
-- `include/pragtical_plugin_api.h`: Native plugin API header. See the contents
-of `pragtical_plugin_api.h` for more details. (TODO: to be dropped in favor of
+- `include/studio_plugin_api.h`: Native plugin API header. See the contents
+of `studio_plugin_api.h` for more details. (TODO: to be dropped in favor of
 dynamic linking)
 
 ### Other Files

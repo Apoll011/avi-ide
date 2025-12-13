@@ -54,13 +54,13 @@ static void get_exe_filename(char *buf, int sz) {
 }
 
 #ifdef _WIN32
-#define PRAGTICAL_OS_HOME "USERPROFILE"
-#define PRAGTICAL_PATHSEP_PATTERN "\\\\"
-#define PRAGTICAL_NONPATHSEP_PATTERN "[^\\\\]+"
+#define AVI_STUDIO_OS_HOME "USERPROFILE"
+#define AVI_STUDIO_PATHSEP_PATTERN "\\\\"
+#define AVI_STUDIO_NONPATHSEP_PATTERN "[^\\\\]+"
 #else
-#define PRAGTICAL_OS_HOME "HOME"
-#define PRAGTICAL_PATHSEP_PATTERN "/"
-#define PRAGTICAL_NONPATHSEP_PATTERN "[^/]+"
+#define AVI_STUDIO_OS_HOME "HOME"
+#define AVI_STUDIO_PATHSEP_PATTERN "/"
+#define AVI_STUDIO_NONPATHSEP_PATTERN "[^/]+"
 #endif
 
 #ifdef SDL_PLATFORM_APPLE
@@ -70,7 +70,7 @@ void set_macos_bundle_resources(lua_State *L);
 #endif
 #endif
 
-#ifndef PRAGTICAL_ARCH_TUPLE
+#ifndef AVI_STUDIO_ARCH_TUPLE
   // https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-140
   #if defined(__x86_64__) || defined(_M_AMD64) || defined(__MINGW64__)
     #define ARCH_PROCESSOR "x86_64"
@@ -96,27 +96,27 @@ void set_macos_bundle_resources(lua_State *L);
   #endif
 
   #if !defined(ARCH_PROCESSOR) || !defined(ARCH_PLATFORM)
-    #error "Please define -DPRAGTICAL_ARCH_TUPLE."
+    #error "Please define -DAVI_STUDIO_ARCH_TUPLE."
   #endif
 
-  #define PRAGTICAL_ARCH_TUPLE ARCH_PROCESSOR "-" ARCH_PLATFORM
+  #define AVI_STUDIO_ARCH_TUPLE ARCH_PROCESSOR "-" ARCH_PLATFORM
 #endif
 
 #ifdef LUA_JIT
-  #define PRAGTICAL_LUAJIT "true"
+  #define AVI_STUDIO_LUAJIT "true"
 #else
-  #define PRAGTICAL_LUAJIT "false"
+  #define AVI_STUDIO_LUAJIT "false"
 #endif
 
 int main(int argc, char **argv) {
 #ifndef _WIN32
   signal(SIGPIPE, SIG_IGN);
 #else
-  /* Allow console output when called from pragtical.com wrapper.
+  /* Allow console output when called from avi-studio.com wrapper.
    * See: https://stackoverflow.com/q/73987850
    *      https://stackoverflow.com/q/17111308
   */
-  if (getenv("PRAGTICAL_COM_WRAP") && AttachConsole(ATTACH_PARENT_PROCESS)) {
+  if (getenv("AVI_STUDIO_COM_WRAP") && AttachConsole(ATTACH_PARENT_PROCESS)) {
     freopen("CONOUT$", "w", stdout);
     freopen("CONOUT$", "w", stderr);
     freopen("CONIN$", "r", stdin);
@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
   }
 #endif
 
-  SDL_SetAppMetadata("Pragtical", PRAGTICAL_PROJECT_VERSION_STR, "dev.pragtical.Pragtical");
+  SDL_SetAppMetadata("Avi Studio", AVI_STUDIO_PROJECT_VERSION_STR, "dev.avi.Studio");
   if (!SDL_Init(SDL_INIT_EVENTS)) {
     fprintf(stderr, "Error initializing sdl: %s", SDL_GetError());
     exit(1);
@@ -169,7 +169,7 @@ init_lua:
   lua_pushstring(L, SDL_GetPlatform());
   lua_setglobal(L, "PLATFORM");
 
-  lua_pushstring(L, PRAGTICAL_ARCH_TUPLE);
+  lua_pushstring(L, AVI_STUDIO_ARCH_TUPLE);
   lua_setglobal(L, "ARCH");
 
   lua_pushboolean(L, has_restarted);
@@ -202,12 +202,12 @@ init_lua:
     "end\n"
     "xpcall(function()\n"
     "  local match = require('utf8extra').match\n"
-    "  HOME = os.getenv('" PRAGTICAL_OS_HOME "')\n"
-    "  LUAJIT = " PRAGTICAL_LUAJIT "\n"
-    "  local exedir = match(EXEFILE, '^(.*)" PRAGTICAL_PATHSEP_PATTERN PRAGTICAL_NONPATHSEP_PATTERN "$')\n"
-    "  local prefix = os.getenv('PRAGTICAL_PREFIX') or match(exedir, '^(.*)" PRAGTICAL_PATHSEP_PATTERN "bin$')\n"
-    "  dofile((MACOS_RESOURCES or (prefix and prefix .. '/share/pragtical' or exedir .. '/data')) .. '/core/start.lua')\n"
-    "  core = require(os.getenv('PRAGTICAL_RUNTIME') or 'core')\n"
+    "  HOME = os.getenv('" AVI_STUDIO_OS_HOME "')\n"
+    "  LUAJIT = " AVI_STUDIO_LUAJIT "\n"
+    "  local exedir = match(EXEFILE, '^(.*)" AVI_STUDIO_PATHSEP_PATTERN AVI_STUDIO_NONPATHSEP_PATTERN "$')\n"
+    "  local prefix = os.getenv('AVI_STUDIO_PREFIX') or match(exedir, '^(.*)" AVI_STUDIO_PATHSEP_PATTERN "bin$')\n"
+    "  dofile((MACOS_RESOURCES or (prefix and prefix .. '/share/avi-studio' or exedir .. '/data')) .. '/core/start.lua')\n"
+    "  core = require(os.getenv('AVI_STUDIO_RUNTIME') or 'core')\n"
     "  core.init()\n"
     "  core.run()\n"
     "end, function(err)\n"
@@ -224,7 +224,7 @@ init_lua:
     "    fp:close()\n"
     "    error_path = system.absolute_path(error_path)\n"
     "  end\n"
-    "  system.show_fatal_error('Pragtical internal error',\n"
+    "  system.show_fatal_error('Avi Studio internal error',\n"
     "    'An internal error occurred in a critical part of the application.\\n\\n'..\n"
     "    'Error: '..tostring(err)..'\\n\\n'..\n"
     "    'Details can be found in \\\"'..error_path..'\\\"')\n"

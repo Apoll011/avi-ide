@@ -15,13 +15,13 @@ EXEDIR = EXEFILE:match("^(.+)[/\\][^/\\]+$")
 if MACOS_RESOURCES then
   DATADIR = MACOS_RESOURCES
 else
-  local prefix = os.getenv('PRAGTICAL_PREFIX') or EXEDIR:match("^(.+)[/\\]bin$")
-  DATADIR = prefix and (prefix .. PATHSEP .. 'share' .. PATHSEP .. 'pragtical') or (EXEDIR .. PATHSEP .. 'data')
+  local prefix = os.getenv('AVI_STUDIO_PREFIX') or EXEDIR:match("^(.+)[/\\]bin$")
+  DATADIR = prefix and (prefix .. PATHSEP .. 'share' .. PATHSEP .. 'avi-studio') or (EXEDIR .. PATHSEP .. 'data')
 end
 USERDIR = (system.get_file_info(EXEDIR .. PATHSEP .. 'user') and (EXEDIR .. PATHSEP .. 'user'))
-       or os.getenv("PRAGTICAL_USERDIR")
-       or ((os.getenv("XDG_CONFIG_HOME") and os.getenv("XDG_CONFIG_HOME") .. PATHSEP .. "pragtical"))
-       or (HOME and (HOME .. PATHSEP .. '.config' .. PATHSEP .. 'pragtical'))
+       or os.getenv("AVI_STUDIO_USERDIR")
+       or ((os.getenv("XDG_CONFIG_HOME") and os.getenv("XDG_CONFIG_HOME") .. PATHSEP .. "avi-studio"))
+       or (HOME and (HOME .. PATHSEP .. '.config' .. PATHSEP .. 'avi-studio'))
 
 package.path = DATADIR .. '/?.lua;'
 package.path = DATADIR .. '/?/init.lua;' .. package.path

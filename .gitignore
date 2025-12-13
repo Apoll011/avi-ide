@@ -20,6 +20,8 @@ compile_commands.json
 error.txt
 pragtical*
 Pragtical*
+avi-studio*
+Avi-Studio*
 
 !resources/windows/*.diff
 !resources/windows/*.exe.manifest.in

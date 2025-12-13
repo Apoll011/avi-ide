@@ -298,11 +298,11 @@ static void copy_global(const char* global, lua_State* from, lua_State* to)
 }
 
 #ifdef _WIN32
-#define PRAGTICAL_PATHSEP_PATTERN "\\\\"
-#define PRAGTICAL_NONPATHSEP_PATTERN "[^\\\\]+"
+#define AVI_STUDIO_PATHSEP_PATTERN "\\\\"
+#define AVI_STUDIO_NONPATHSEP_PATTERN "[^\\\\]+"
 #else
-#define PRAGTICAL_PATHSEP_PATTERN "/"
-#define PRAGTICAL_NONPATHSEP_PATTERN "[^/]+"
+#define AVI_STUDIO_PATHSEP_PATTERN "/"
+#define AVI_STUDIO_NONPATHSEP_PATTERN "[^/]+"
 #endif
 
 static void init_start(lua_State* L)
@@ -310,9 +310,9 @@ static void init_start(lua_State* L)
   /* partial code taken from main.c */
   const char *lua_code = \
     "local match = require('utf8extra').match\n"
-    "local exedir = match(EXEFILE, '^(.*)" PRAGTICAL_PATHSEP_PATTERN PRAGTICAL_NONPATHSEP_PATTERN "$')\n"
-    "local prefix = os.getenv('PRAGTICAL_PREFIX') or match(exedir, '^(.*)" PRAGTICAL_PATHSEP_PATTERN "bin$')\n"
-    "dofile((MACOS_RESOURCES or (prefix and prefix .. '/share/pragtical' or exedir .. '/data')) .. '/core/start.lua')\n"
+    "local exedir = match(EXEFILE, '^(.*)" AVI_STUDIO_PATHSEP_PATTERN AVI_STUDIO_NONPATHSEP_PATTERN "$')\n"
+    "local prefix = os.getenv('AVI_STUDIO_PREFIX') or match(exedir, '^(.*)" AVI_STUDIO_PATHSEP_PATTERN "bin$')\n"
+    "dofile((MACOS_RESOURCES or (prefix and prefix .. '/share/avi-studio' or exedir .. '/data')) .. '/core/start.lua')\n"
   ;
 
   if (luaL_loadstring(L, lua_code)) {
@@ -367,7 +367,7 @@ static int f_thread_create(lua_State *L)
     push_from_state(L, thread->L, iv);
   }
 
-  /* loading pragtical api before threadDump and arguments causes issues */
+  /* loading Avi Studio api before threadDump and arguments causes issues */
   api_load_libs(thread->L);
 
   /* Copy globals from main state to properly set the packages path */

@@ -2,10 +2,10 @@
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
   <assemblyIdentity
     type="win32"
-    name="pragtical"
+    name="avi-studio"
     version="@PROJECT_ASSEMBLY_VERSION@"
   />
-  <description>Practical and Pragmatic Code Editor</description>
+  <description>Avi Skill Editor</description>
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
     <security>
       <requestedPrivileges>

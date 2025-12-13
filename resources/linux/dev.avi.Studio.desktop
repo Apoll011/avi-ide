@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Application
-Name=Pragtical
+Name=Avi Studio
 Comment=The practical and pragmatic code editor.
-Exec=pragtical %F
+Exec=avi-studio %F
 Icon=pragtical
 Terminal=false
-StartupWMClass=dev.pragtical.Pragtical
+StartupWMClass=dev.avi.Studio
 Categories=Development;IDE;TextEditor;
 MimeType=text/plain;inode/directory;

@@ -13,7 +13,7 @@ int luaopen_encoding(lua_State* L);
 int luaopen_diff(lua_State *L);
 int luaopen_canvas(lua_State* L);
 
-#ifdef PRAGTICAL_REPL_HISTORY
+#ifdef AVI_STUDIO_REPL_HISTORY
   #define LUA_REPL { "repl",  luaopen_linenoise  },
   int luaopen_linenoise(lua_State *L);
 #else

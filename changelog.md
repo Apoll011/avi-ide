@@ -694,7 +694,7 @@
 
 ### Fixes
 
-* Use PRAGTICAL_USERDIR instead of HOME on `scripts/run-local` because
+* Use AVI_STUDIO_USERDIR instead of HOME on `scripts/run-local` because
   XDG_CONFIG_HOME been set has priority over HOME.
   ([#133](https://github.com/pragtical/pragtical/pull/133))
 

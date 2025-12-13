@@ -35,7 +35,7 @@ jobs:
         uses: softprops/action-gh-release@v2.2.2
         with:
           tag_name: ${{ steps.tag.outputs.version }}
-          name: Pragtical ${{ steps.tag.outputs.version }}
+          name: Avi Studio ${{ steps.tag.outputs.version }}
           draft: false
           prerelease: true
           generate_release_notes: true
@@ -50,12 +50,11 @@ jobs:
 
 
 
-            * When installing on MacOS from the `.dmg` file (since Pragtical is
+            * When installing on MacOS from the `.dmg` file (since Avi Studio is
             not signed) you will need to clear the App attributes in order to
             be able to launch it. To do so open the terminal and run
-            `xattr -cr /Applications/Pragtical.app`, afterwards you should be
-            able to launch Pragtical normally.
-
+            `xattr -cr /Applications/Avi Studio.app`, afterwards you should be
+            able to launch Avi Studio normally.
   build_linux:
     name: Linux
     needs: release
@@ -114,8 +113,8 @@ jobs:
           draft: false
           prerelease: true
           files: |
-            pragtical-${{ env.INSTALL_REF }}-linux-${{ matrix.config.arch }}-portable.tar.gz
-            Pragtical-${{ env.INSTALL_REF }}-${{ matrix.config.arch }}.AppImage
+            avi-studio-${{ env.INSTALL_REF }}-linux-${{ matrix.config.arch }}-portable.tar.gz
+            Avi-Studio-${{ env.INSTALL_REF }}-${{ matrix.config.arch }}.AppImage
 
   build_macos:
     name: macOS
@@ -145,7 +144,7 @@ jobs:
         run: |
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
-          echo "INSTALL_NAME=pragtical-${{ needs.release.outputs.version }}-macos-${{ matrix.config.arch }}" >> "$GITHUB_ENV"
+          echo "INSTALL_NAME=avi-studio-${{ needs.release.outputs.version }}-macos-${{ matrix.config.arch }}" >> "$GITHUB_ENV"
       - name: Python Setup
         uses: actions/setup-python@v5
         with:
@@ -209,10 +208,10 @@ jobs:
           echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
           if [[ "${MSYSTEM}" == "MINGW64" ]]; then
             echo "BUILD_ARCH=x86_64" >> "$GITHUB_ENV"
-            echo "INSTALL_NAME=pragtical-${{ needs.release.outputs.version }}-windows-x86_64" >> "$GITHUB_ENV"
+            echo "INSTALL_NAME=avi-studio-${{ needs.release.outputs.version }}-windows-x86_64" >> "$GITHUB_ENV"
           else
             echo "BUILD_ARCH=i686" >> "$GITHUB_ENV"
-            echo "INSTALL_NAME=pragtical-${{ needs.release.outputs.version }}-windows-i686" >> "$GITHUB_ENV"
+            echo "INSTALL_NAME=avi-studio-${{ needs.release.outputs.version }}-windows-i686" >> "$GITHUB_ENV"
           fi
       - name: Build
         run: |
@@ -229,4 +228,4 @@ jobs:
           prerelease: true
           files: |
             ${{ env.INSTALL_NAME }}.zip
-            Pragtical-${{ env.INSTALL_REF }}-${{ env.BUILD_ARCH }}-setup.exe
+            Avi-Studio-${{ env.INSTALL_REF }}-${{ env.BUILD_ARCH }}-setup.exe
