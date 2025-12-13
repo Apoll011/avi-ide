@@ -263,7 +263,7 @@ main() {
   cp "$ppm_file" Pragtical.AppDir/usr/share/pragtical/plugins/plugin_manager/
 
   # These could be symlinks but it seems they doesn't work with AppimageLauncher
-  cp resources/icons/logo.svg Pragtical.AppDir/pragtical.svg
+  cp resources/icons/logo.svg Pragtical.AppDir/avi-studio.svg
   cp resources/linux/dev.avi.Studio.desktop Pragtical.AppDir/
 
   if [[ $addons == true ]]; then

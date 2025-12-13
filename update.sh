@@ -1,13 +1,13 @@
-cp pragtical/data/core/start.lua /tmp/start.lua.backup
+cp avi-studio/data/core/start.lua /tmp/start.lua.backup
 
-rm -rf pragtical/data/core
-cp -r data/core pragtical/data
+rm -rf avi-studio/data/core
+cp -r data/core avi-studio/data
 
-mv /tmp/start.lua.backup pragtical/data/core/start.lua
+mv /tmp/start.lua.backup avi-studio/data/core/start.lua
 
-rm -rf pragtical/data/plugins
-cp -r data/plugins pragtical/data
+rm -rf avi-studio/data/plugins
+cp -r data/plugins avi-studio/data
 
 
-cd ./pragtical
-./pragtical.com
+cd ./avi-studio
+./avi-studio.com

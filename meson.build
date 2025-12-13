@@ -289,7 +289,7 @@ else
     if host_machine.system() == 'linux'
         install_data('resources/icons/logo.svg',
             install_dir : 'share/icons/hicolor/scalable/apps',
-            rename : 'pragtical.svg'
+            rename : 'avi-studio.svg'
         )
         install_data('resources/linux/dev.avi.Studio.desktop',
             install_dir : 'share/applications'

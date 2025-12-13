@@ -186,7 +186,7 @@ main() {
     $release \
     $pgo
 
-  sudo source scripts/package.sh \
+  source scripts/package.sh \
     ${build_dir_option[@]} \
     ${dest_dir_option[@]} \
     ${prefix_option[@]} \
