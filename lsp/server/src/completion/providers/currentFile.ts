@@ -28,14 +28,12 @@ export function currentFileCompletions(
       data: `workspace_fn_${baseLabel}`,
     };
 
-    if (mandatoryArgs.length > 0 || signatureArgs.length > 0) {
-      item.insertText = makeSnippet(
-        baseLabel,
-        mandatoryArgs,
-        signatureArgs
-      );
-      item.insertTextFormat = InsertTextFormat.Snippet;
-    }
+    item.insertText = makeSnippet(
+      baseLabel,
+      mandatoryArgs,
+      signatureArgs
+    );
+    item.insertTextFormat = InsertTextFormat.Snippet; 
 
     items.push(item);
   }

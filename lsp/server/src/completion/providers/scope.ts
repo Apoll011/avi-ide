@@ -16,9 +16,7 @@ export function completionfromScope(
   
     const scopes = extractFunctionScopes(text);
     const scope = findScopeAtOffset(scopes, offset);
-    console.log("Current scope:", scope);
-    console.log("All scopes:", scopes);
-
+    
     if (!scope) return [];
     
     const items: CompletionItem[] = [];
