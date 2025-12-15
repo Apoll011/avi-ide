@@ -38,19 +38,7 @@ export const AVI_BUILTINS: AviSymbol[] = [
   { label: "true", kind: CompletionItemKind.Value, documentation: "Boolean true value" },
   { label: "false", kind: CompletionItemKind.Value, documentation: "Boolean false value" },
 
-  // Comparison operators
-  { label: "less", kind: CompletionItemKind.Function, detail: "(a, b) -> bool", documentation: "Less than comparison (<)" },
-  { label: "less_or_equal", kind: CompletionItemKind.Function, detail: "(a, b) -> bool", documentation: "Less than or equal comparison (<=)" },
-  { label: "greater", kind: CompletionItemKind.Function, detail: "(a, b) -> bool", documentation: "Greater than comparison (>)" },
-  { label: "greater_or_equal", kind: CompletionItemKind.Function, detail: "(a, b) -> bool", documentation: "Greater than or equal comparison (>=)" },
-  { label: "equal", kind: CompletionItemKind.Function, detail: "(a, b) -> bool", documentation: "Equality comparison (==)" },
-  { label: "not_equal", kind: CompletionItemKind.Function, detail: "(a, b) -> bool", documentation: "Not equal comparison (!=)" },
-
-  // Logical operators
-  { label: "and_also", kind: CompletionItemKind.Function, detail: "(a, b) -> bool", documentation: "Lazy AND operator (&&)" },
-  { label: "or_else", kind: CompletionItemKind.Function, detail: "(a, b) -> bool", documentation: "Lazy OR operator (||)" },
-  { label: "not", kind: CompletionItemKind.Function, detail: "(b) -> bool", documentation: "Logical NOT operator" },
-
+  
   // Tracing functions
   { label: "why", kind: CompletionItemKind.Function, detail: "(var: sec[bool]) -> [any]", documentation: "Returns derived information for truth value, used with ∃/any and ∀/all loops" },
   { label: "where", kind: CompletionItemKind.Function, detail: "(var: sec[f64]) -> [any]", documentation: "Returns derived information for value, used with min and max loops" },

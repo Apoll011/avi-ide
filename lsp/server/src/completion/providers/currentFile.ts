@@ -1,0 +1,74 @@
+import { FN_REGEX, VAR_REGEX } from "./regex";
+import {
+  CompletionItem,
+  CompletionItemKind,
+  InsertTextFormat,
+} from "vscode-languageserver/node";
+import { TextDocument } from "vscode-languageserver-textdocument";
+
+import { extractFunctions, extractVariables, extractArgNames, parseDoubleUnderscoreLabel, makeSnippet } from "./utils";
+
+export function currentFileCompletions(
+  document: TextDocument
+): CompletionItem[] {
+  const text = document.getText();
+
+  const items: CompletionItem[] = [];
+
+  /* ---------------- FUNCTIONS ---------------- */
+
+  for (const fn of extractFunctions(text)) {
+    const { baseLabel, mandatoryArgs } =
+      parseDoubleUnderscoreLabel(fn.name);
+
+    const signatureArgs = extractArgNames(fn.signature);
+
+    const item: CompletionItem = {
+      label: baseLabel,
+      kind: CompletionItemKind.Function,
+      data: `workspace_fn_${baseLabel}`,
+    };
+
+    if (mandatoryArgs.length > 0 || signatureArgs.length > 0) {
+      item.insertText = makeSnippet(
+        baseLabel,
+        mandatoryArgs,
+        signatureArgs
+      );
+      item.insertTextFormat = InsertTextFormat.Snippet;
+    }
+
+    items.push(item);
+  }
+
+  /* ---------------- VARIABLES ---------------- */
+
+  for (const name of extractVariables(text)) {
+    items.push({
+      label: name,
+      kind: CompletionItemKind.Variable,
+      data: `workspace_var_${name}`,
+    });
+  }
+
+  /* -------- FUNCTION ARGUMENTS (SCOPE-AWARE-ish) -------- */
+
+  for (const fn of extractFunctions(text)) {
+    const argNames = extractArgNames(
+      fn.signature.slice(
+        fn.signature.indexOf("(") + 1,
+        fn.signature.lastIndexOf(")")
+      )
+    );
+
+    for (const arg of argNames) {
+      items.push({
+        label: arg,
+        kind: CompletionItemKind.Variable,
+        data: `workspace_arg_${arg}`,
+      });
+    }
+  }
+
+  return items;
+}

@@ -1,73 +1,14 @@
 // providers/builtin.ts
-import { CompletionItem, InsertTextFormat } from "vscode-languageserver/node";
+import { CompletionItem, CompletionItemKind, InsertTextFormat } from "vscode-languageserver/node";
 import { AVI_BUILTINS } from "../builtins";
+import { extractArgNames, makeSnippet, parseDoubleUnderscoreLabel } from "./utils";
 
-function countArgs(signature?: string | null): string[] {
-  if (!signature) return [];
-
-  const match = signature.match(/\(([^)]*)\)/);
-  if (!match) return [];
-
-  const inside = match[1].trim();
-  if (inside === "") return [];
-
-  return inside
-    .split(",")
-    .map(s => s.trim())
-    .filter(Boolean);
-}
-
-function parseDoubleUnderscoreLabel(label: string): {
-  baseLabel: string;
-  mandatoryArgs: string[];
-} {
-  const parts = label.split("__");
-  if (parts.length === 1) {
-    return { baseLabel: label, mandatoryArgs: [] };
-  }
-
-  return {
-    baseLabel: parts[0],
-    mandatoryArgs: parts.slice(1),
-  };
-}
-
-function makeSnippet(
-  label: string,
-  mandatoryArgs: string[],
-  signatureArgs: string[]
-): string {
-  const args: string[] = [];
-
-  for (const name of mandatoryArgs) {
-    args.push(name);
-  }
-
-  for (const arg of signatureArgs) {
-    const name = arg.split(":")[0].trim();
-    if (!args.includes(name)) {
-      args.push(name);
-    }
-  }
-
-  if (args.length === 0) {
-    return `${label}()`;
-  }
-
-  const placeholders = args.map((name, i) => {
-    return `${name}: \${${i + 1}:${name}}`;
-  });
-
-  return `${label}(${placeholders.join(", ")})`;
-}
-
-export function builtinCompletions(): CompletionItem[] {
-  return AVI_BUILTINS.map((sym) => {
+function generateFunctionCompletionItem(sym: CompletionItem): CompletionItem {
     const { baseLabel, mandatoryArgs } =
       parseDoubleUnderscoreLabel(sym.label);
 
     const signatureArgs = sym.detail
-      ? countArgs(sym.detail)
+      ? extractArgNames(sym.detail)
       : [];
 
     const item: CompletionItem = {
@@ -86,5 +27,43 @@ export function builtinCompletions(): CompletionItem[] {
     }
 
     return item;
-  });
+}
+
+function generateTypeParameter(sym: CompletionItem): CompletionItem {
+    const item: CompletionItem = {
+      ...sym,
+      data: sym.label + "_" + sym.kind,
+    };
+    return item;
+}
+
+function generateKeyword(sym: CompletionItem): CompletionItem {
+    const item: CompletionItem = {
+      ...sym,
+      data: sym.label + "_" + sym.kind,
+    };
+    return item;
+}
+
+function generateGeneric(sym: CompletionItem): CompletionItem {
+    const item: CompletionItem = {
+      ...sym,
+      data: sym.label + "_" + sym.kind,
+    };
+    return item;
+}
+
+export function builtinCompletions(): CompletionItem[] {
+  return AVI_BUILTINS.map((sym) => {
+      switch (sym.kind) {
+        case CompletionItemKind.Function:
+          return generateFunctionCompletionItem(sym);
+        case CompletionItemKind.TypeParameter:
+          return generateTypeParameter(sym);
+        case CompletionItemKind.Keyword:
+          return generateKeyword(sym);
+        default:
+          return generateGeneric(sym);
+      }
+    });
 }

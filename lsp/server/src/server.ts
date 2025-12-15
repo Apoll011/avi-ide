@@ -30,6 +30,11 @@ connection.onInitialize((params: InitializeParams) => {
 			diagnosticProvider: {
 				interFileDependencies: false,
 				workspaceDiagnostics: false
+			},
+			workspace: {
+				workspaceFolders: {
+					supported: false
+				}
 			}
 		}
 	};
@@ -58,7 +63,7 @@ connection.languages.diagnostics.on(async (params) => {
 	}
 });
 
-connection.onCompletion(completionHandler);
+connection.onCompletion(completionHandler(documents));
 connection.onCompletionResolve(completionResolve);
 documents.listen(connection);
 
