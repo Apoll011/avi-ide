@@ -1,0 +1,1 @@
+{"root":["./src/server.ts","./src/completion/builtins.ts","./src/completion/completion.ts","./src/completion/providers/builtins.ts","./src/completion/providers/workspace.ts"],"version":"5.9.2"}
