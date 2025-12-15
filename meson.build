@@ -304,6 +304,8 @@ install_data('licenses/licenses.md', install_dir : avi_studio_docdir)
 
 install_subdir('docs/api' , install_dir : avi_studio_datadir, strip_directory: true)
 install_subdir('data/core' , install_dir : avi_studio_datadir, exclude_files : 'start.lua')
+install_subdir('lsp/server/out' , install_dir : avi_studio_datadir / 'avi_lsp')
+install_subdir('lsp/server/node_modules' , install_dir : avi_studio_datadir / 'avi_lsp')
 
 fs = import('fs')
 

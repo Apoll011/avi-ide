@@ -196,6 +196,23 @@ local core = require "core"
 local keymap = require "core.keymap"
 local config = require "core.config"
 local style = require "core.style"
+local lsp = require "plugins.lsp"
+
+lsp.add_server {
+  name = "avi-lsp",
+  language = "Avi",
+  file_patterns = { "%.avi$" },
+  command = {
+    "node",
+    "avi_lsp/out/server.js",
+    "--stdio"
+  },
+  requests_per_second = 16,
+  incremental_changes = false,
+  verbose = true,
+  windows_skip_cmd = true,
+  exec_path = DATADIR,
+}
 
 ------------------------------ Themes ----------------------------------------
 
