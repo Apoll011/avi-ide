@@ -1,13 +1,14 @@
 // completion.ts
 import {
   CompletionItem,
-  TextDocument,
   TextDocumentPositionParams,
   TextDocuments,
 } from "vscode-languageserver/node";
 
 import { builtinCompletions } from "./providers/builtins";
 import { currentFileCompletions } from "./providers/currentFile";
+import { TextDocument } from "vscode-languageserver-textdocument";
+import { completionfromScope } from "./providers/scope";
 
 export function completionHandler(
   documents: TextDocuments<TextDocument>,
@@ -17,6 +18,7 @@ export function completionHandler(
     return [
     ...builtinCompletions(),
     ...(document ? currentFileCompletions(document) : []),
+    ...(document ? completionfromScope(document, pos) : []),
   ];
   }
 }

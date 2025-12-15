@@ -5,6 +5,20 @@ export interface WorkspaceFunction {
   signature: string;
 }
 
+export interface FunctionScope {
+  name: string;
+  start: number;
+  end: number;
+  args: string[];
+  locals: string[];
+}
+
+export interface VariableMap {
+  globals: string[];
+  scopes: Record<string, string[]>;
+}
+
+
 export function parseDoubleUnderscoreLabel(label: string): {
   baseLabel: string;
   mandatoryArgs: string[];
@@ -65,15 +79,33 @@ export function extractFunctions(text: string): WorkspaceFunction[] {
   return result;
 }
 
-export function extractVariables(text: string): string[] {
-  const vars = new Set<string>();
+export function extractVariables(
+  text: string
+): VariableMap {
+  const globals = new Set<string>();
+  const scopes: Record<string, string[]> = {};
+
+  const fnScopes = extractFunctionScopes(text);
+
   let match: RegExpExecArray | null;
 
   while ((match = VAR_REGEX.exec(text))) {
-    vars.add(match[1]);
+    const name = match[1];
+    const pos = match.index;
+
+    const insideFunction = fnScopes.some(
+      (fn) => pos >= fn.start && pos <= fn.end
+    );
+
+    if (!insideFunction) {
+      globals.add(name);
+    }
   }
 
-  return [...vars];
+  return {
+    globals: [...globals],
+    scopes,
+  };
 }
 
 export function extractArgNames(argString: string): string[] {
@@ -94,4 +126,59 @@ export function extractArgNames(argString: string): string[] {
         .split(":")[0]
         .trim()
     );
+}
+
+export function extractFunctionScopes(
+  text: string
+): FunctionScope[] {
+  const scopes: FunctionScope[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = FN_REGEX.exec(text))) {
+    const name = match[1];
+    const argsRaw = match[2];
+    const bodyStart = match.index + match[0].length;
+
+    let braceCount = 1;
+    let i = bodyStart;
+
+    while (i < text.length && braceCount > 0) {
+      if (text[i] === "{") braceCount++;
+      else if (text[i] === "}") braceCount--;
+      i++;
+    }
+
+    const bodyEnd = i;
+
+    const bodyText = text.slice(bodyStart, bodyEnd);
+
+    const locals: string[] = [];
+    let varMatch: RegExpExecArray | null;
+
+    while ((varMatch = VAR_REGEX.exec(bodyText))) {
+      locals.push(varMatch[1]);
+    }
+
+    scopes.push({
+      name,
+      start: match.index,
+      end: bodyEnd,
+      args: extractArgNames("(" + argsRaw + ")"),
+      locals,
+    });
+  }
+
+  return scopes;
+}
+
+export function findScopeAtOffset(
+  scopes: FunctionScope[],
+  offset: number
+): FunctionScope | null {
+  for (const scope of scopes) {
+    if (offset >= scope.start && offset <= scope.end) {
+      return scope;
+    }
+  }
+  return null;
 }

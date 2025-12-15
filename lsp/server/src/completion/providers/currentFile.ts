@@ -1,4 +1,3 @@
-import { FN_REGEX, VAR_REGEX } from "./regex";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -6,7 +5,7 @@ import {
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 
-import { extractFunctions, extractVariables, extractArgNames, parseDoubleUnderscoreLabel, makeSnippet } from "./utils";
+import { extractFunctions, extractVariables, extractArgNames, parseDoubleUnderscoreLabel, makeSnippet, FunctionScope, extractFunctionScopes, findScopeAtOffset } from "./utils";
 
 export function currentFileCompletions(
   document: TextDocument
@@ -43,32 +42,12 @@ export function currentFileCompletions(
 
   /* ---------------- VARIABLES ---------------- */
 
-  for (const name of extractVariables(text)) {
+  for (const name of extractVariables(text).globals) {
     items.push({
       label: name,
       kind: CompletionItemKind.Variable,
       data: `workspace_var_${name}`,
     });
   }
-
-  /* -------- FUNCTION ARGUMENTS (SCOPE-AWARE-ish) -------- */
-
-  for (const fn of extractFunctions(text)) {
-    const argNames = extractArgNames(
-      fn.signature.slice(
-        fn.signature.indexOf("(") + 1,
-        fn.signature.lastIndexOf(")")
-      )
-    );
-
-    for (const arg of argNames) {
-      items.push({
-        label: arg,
-        kind: CompletionItemKind.Variable,
-        data: `workspace_arg_${arg}`,
-      });
-    }
-  }
-
   return items;
 }
